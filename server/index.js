@@ -20,9 +20,7 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 
 app.get('/api/test', (req, res) => {
-  const d3n = new D3Node();
-  d3n.createSVG(10, 20).append('g');
-  res.json(d3n.svgString());
+  Stats.findOne().then(data => res.json(data)).catch(err =>console.error(err));
   // console.log(d3n.svgString());
 });
 

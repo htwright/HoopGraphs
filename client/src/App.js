@@ -1,33 +1,27 @@
 import React, { Component } from 'react';
+import {connect, Provider} from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
 import Graph from './graph/graph';
+import {recieveGraphData} from './Actions';
 
 class App extends Component {
-
-  constructor(props){
-    super(props);
-    this.state = {
-      svg: "waiting"
-    }
-  }
 
   componentWillMount(){
     this.fetchGraph();
   }
 
   fetchGraph() {
-    return fetch('/api/test').then(data => data.json()).then(data => this.setState({svg: data}));
+    return fetch('/api/test').then(data => data.json()).then(data => this.props.dispatch(recieveGraphData(data)));
   }
 
   render() {
-    let svg = this.state.svg;
+    let graphData = this.props.graphData;
     return (
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
-      {svg}     
       
         </div>
         <p className="App-intro">
@@ -38,5 +32,7 @@ class App extends Component {
     );
   }
 }
-
-export default App;
+const mapStateToProps = state => ({
+  graphData: state.graphData
+});
+export default connect(mapStateToProps)(App);

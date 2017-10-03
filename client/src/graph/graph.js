@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 const d3 = require('react-d3');
 const LineChart = d3.LineChart;
 
 
-export default class Graph extends Component {
+class Graph extends Component {
 
   render(){
     const lineData = [
@@ -21,3 +22,5 @@ export default class Graph extends Component {
   }
 
 }
+
+export default connect()(Graph);
