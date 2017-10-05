@@ -41,21 +41,20 @@ class Graph extends Component {
       xLabel = 'Letter',
       yLabel = 'Frequency',
       yTicks = [0.5, 'ppg'];
-
+    let counter;
+    this.props.playerData.forEach(item => {
+      counter+= item.player.ppg;
+    });
+    const averagePPG = counter / this.props.playerData.length;
 
     const barGraph = this.props.graphPlayers.length ? <BarChart title={'Points per game'} legend={true} data={barData} width={width} height={height} chartSeries={chartSeries} x={x} xScale={xScale} xLabel={xLabel} yLabel={yLabel} yTicks={yTicks} /> : <span>Waiting on your selection! </span>;
 
     const players = this.props.playerData.length ? this.props.playerData.map((obj, i) => <option key={i}> {obj.player.name} </option>) : null;
-    const lineData = [
-      {
-        name: 'series1',
-        values: [ { x: 0, y: 20 }, { x: 10, y: 10 } ]
-      },
-      {
-        name: 'series2',
-        values: [ { x: 7, y: 82 }, { x: 76, y: 82 } ]
-      }
-    ];
+    const lineData = this.props.playerData.map((item, i)=> 
+      ({
+        name: item.player.name + ` number ${i}`,
+        values: [ { x: 0, y: 0 }, { x: item.player.ppg, y: item.player.ppg } ]
+      }));
  
     return (
       <div className="graph">
