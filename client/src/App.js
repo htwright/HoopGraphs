@@ -17,6 +17,7 @@ class App extends Component {
 
   render() {
     let graphData = this.props.graphData;
+    console.log(graphData);
     return (
       <div className="App">
         <div className="App-header">
