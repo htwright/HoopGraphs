@@ -1,7 +1,8 @@
 const initialState = {
   graphData: {},
-  playerData:{},
-  loading:false
+  playerData:[],
+  loading:false,
+  graphPlayers : []
 };
 
 
@@ -23,6 +24,11 @@ const initialState = {
       loading:false,
       playerData:action.data
     }
+    case 'SET_GRAPHING_PLAYER':
+      return {
+        ...state,
+        graphPlayers: [...state.graphPlayers, action.data]
+      }
       default : 
         return state;
     

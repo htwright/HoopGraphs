@@ -18,6 +18,12 @@ export const recievePlayerData = (data) => ({
   data
 });
 
+export const SET_GRAPHING_PLAYER = 'SET_GRAPHING_PLAYER';
+export const setGraphingPlayer = (data) => ({
+  type: SET_GRAPHING_PLAYER,
+  data
+});
+
 export const fetchPlayerData = () => {
   // store.dispatch(requestPlayerData());
   return dispatch=>{
