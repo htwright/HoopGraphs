@@ -1,5 +1,5 @@
 
-
+import store from '../store';
 
 export const RECIEVE_GRAPH_DATA = 'RECIEVE_GRAPH_DATA';
 export const recieveGraphData = (data) => ({
@@ -18,10 +18,13 @@ export const recievePlayerData = (data) => ({
   data
 });
 
-const fetchPlayerData = () => {
-  requestPlayerData();
-  fetch('/api/players')
+export const fetchPlayerData = () => {
+  // store.dispatch(requestPlayerData());
+  return dispatch=>{
+    store.dispatch(requestPlayerData());
+    fetch('/api/players')
   .then(data => data.json())
-  .then(data => recievePlayerData(data))
+  .then(data => dispatch(recievePlayerData(data)))
   .catch(err => console.error(err));
+  };
 };
