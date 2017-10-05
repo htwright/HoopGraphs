@@ -10,10 +10,8 @@ const initialState = {
         ...state,
         graphData: action.data
       }
-      break;
       default : 
         return state;
-        break;
     
   }
 }

@@ -10,7 +10,7 @@ const {Stats} = require('./models');
 const mongoose = require('mongoose');
 console.log(DATABASE_URL)
 let search = 'curry';
-const MSF_url = `https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json?playerstats=2PA,2PM,3PA,3PM,FTA,FTM,PTS/G,AST/G,STL/G,REB/G,TOV/G&player=${search}`
+const MSF_url = `https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json?playerstats=PTS/G,AST/G,STL/G,REB/G,TOV/G&player=${search}`
 
 // API endpoints go here!
 
@@ -18,6 +18,19 @@ const MSF_url = `https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regul
 // Serve the built client
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
+
+app.get('/api/search/:player', (req, res) => {
+  const searchUrl = `https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json?playerstats=PTS/G,AST/G,STL/G,REB/G,TOV/G&player=${req.params.player}`;
+  fetch(searchUrl, {headers: {Authorization: `Basic ${apiAuth}`}})
+  .then(data => data.json())
+  .then(data => {
+    Stats.create({player:data})
+    return data
+  })
+  .then(data => res.status(200).json(data))
+  .catch(err => console.error(err));
+
+});
 
 app.get('/api/test', (req, res) => {
   Stats.findOne().then(data => res.json(data)).catch(err =>console.error(err));

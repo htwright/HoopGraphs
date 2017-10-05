@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {connect, Provider} from 'react-redux';
+import {connect} from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
 import Graph from './graph/graph';
