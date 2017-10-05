@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {requestPlayerData} from '../Actions';
 const d3 = require('react-d3');
 const LineChart = d3.LineChart;
 
 
 class Graph extends Component {
+
+  componentWillMount(){
+    this.props.dispatch(requestPlayerData());
+  }
+
 
   render(){
     const lineData = [
@@ -18,9 +24,20 @@ class Graph extends Component {
       }
     ];
 
-    return (<LineChart legend={false} data={lineData} width={500} height={300} title="chart"/>);
+    return (
+      <div className="graph">
+        <LineChart legend={false} data={lineData} width={500} height={300} title="chart"/>
+        <form className="playerSelection">
+          <input className = "player1" ref={input => this.player1 = input}/>
+          <input className = "player2" ref={input => this.player2 = input}/>
+        </form>
+      </div>
+    );
   }
 
 }
-
-export default connect()(Graph);
+const mapStateToProps = (state) => ({
+  graphData : state.graphData,
+  playerData : state.playerData
+});
+export default connect(mapStateToProps)(Graph);

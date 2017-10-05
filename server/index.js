@@ -9,6 +9,7 @@ const apiAuth = btoa(MSF_UN + ':' + MSF_PW);
 const {Stats} = require('./models');
 const mongoose = require('mongoose');
 console.log(DATABASE_URL)
+mongoose.promise = Promise;
 let search = 'curry';
 const MSF_url = `https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json?playerstats=PTS/G,AST/G,STL/G,REB/G,TOV/G&player=${search}`
 
@@ -30,6 +31,25 @@ app.get('/api/search/:player', (req, res) => {
   .then(data => res.status(200).json(data))
   .catch(err => console.error(err));
 
+});
+function formatMSF(entry) {
+  return ({
+    MSFID: entry.player.ID,
+    name: `${entry.player.FirstName} ${entry.player.LastName}`,
+    position: entry.player.Position,
+    ppg: entry.stats.PtsPerGame['#text']
+  })
+}
+// app.get('/api/populateteams', (req, res) => {
+//   fetch(`https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json?playerstats=PTS/G,AST/G,STL/G,REB/G,TOV/G&team=bos,hou,nyn,lal}`, {headers: {Authorization: `Basic ${apiAuth}`}})
+//   .then(data => data.json())
+//   .then(data => data.cumulativeplayerstats.playerstatsentry.forEach(entry => Stats.create({player:formatMSF(entry)})))
+//   .then(res.status(201).json('teams populated successfully').send())
+//   .catch(err => console.error(err));
+// });
+
+app.get('/api/players', (req, res) => {
+  Stats.find().then(data => res.json(data));
 });
 
 app.get('/api/test', (req, res) => {

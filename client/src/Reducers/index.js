@@ -1,5 +1,7 @@
 const initialState = {
-  graphData: {}
+  graphData: {},
+  playerData:{},
+  loading:false
 };
 
 
@@ -10,6 +12,17 @@ const initialState = {
         ...state,
         graphData: action.data
       }
+    case 'REQUEST_PLAYER_DATA':
+    return{
+      ...state,
+      loading:true
+    }
+    case 'RECIEVE_PLAYER_DATA':
+    return {
+      ...state,
+      loading:false,
+      playerData:action.data
+    }
       default : 
         return state;
     
