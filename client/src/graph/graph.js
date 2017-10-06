@@ -22,7 +22,7 @@ class Graph extends Component {
   render(){
     const barData = this.props.graphPlayers.length ? this.props.graphPlayers.map((player, i) => ({
       name: `Player ${i+1}`,
-      values:  [ { x: 0, y: player.ppg }, { x: 10, y: 10 } ]
+      values:  [ { x: 0, y: 30}, { x: 10, y: player.player.ppg } ]
     })
   ) : null;
     // const chartSeries = [{field: 'ppg', name:'points per game'}];
@@ -35,7 +35,7 @@ class Graph extends Component {
         }
       ],
       x = function(d) {
-        return d.values;
+        return d.index;
       },
       xScale = 'ordinal',
       xLabel = 'Letter',
@@ -43,7 +43,7 @@ class Graph extends Component {
       yTicks = [0.5, 'ppg'];
     let counter;
     this.props.playerData.forEach(item => {
-      counter+= item.player.ppg;
+      counter += item.player.ppg;
     });
     const averagePPG = counter / this.props.playerData.length;
 
@@ -61,8 +61,8 @@ class Graph extends Component {
         <LineChart legend={false} data={lineData} width={500} height={300} title="chart"/>
         {barGraph}
         <form className="playerSelection">
-          <input className="player1" ref={input => this.player1 = input}/>
-          <input className="player2" ref={input => this.player2 = input}/>
+          {/*}<input className="player1" ref={input => this.player1 = input}/>
+    <input className="player2" ref={input => this.player2 = input}/>{*/}
           <select ref={input=>this.selectedPlayer = input} onChange={()=>this.setPlayerinState()}> {players} </select>
         </form>
       </div>
