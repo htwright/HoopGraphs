@@ -40,13 +40,13 @@ function formatMSF(entry) {
     ppg: entry.stats.PtsPerGame['#text']
   })
 }
-// app.get('/api/populateteams', (req, res) => {
-//   fetch(`https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json?playerstats=PTS/G,AST/G,STL/G,REB/G,TOV/G&team=bos,hou,nyn,lal}`, {headers: {Authorization: `Basic ${apiAuth}`}})
-//   .then(data => data.json())
-//   .then(data => data.cumulativeplayerstats.playerstatsentry.forEach(entry => Stats.create({player:formatMSF(entry)})))
-//   .then(res.status(201).json('teams populated successfully').send())
-//   .catch(err => console.error(err));
-// });
+app.get('/api/populateteams', (req, res) => {
+  fetch(`https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json?playerstats=PTS/G,AST/G,STL/G,REB/G,TOV/G`, {headers: {Authorization: `Basic ${apiAuth}`}})
+  .then(data => data.json())
+  .then(data => data.cumulativeplayerstats.playerstatsentry.forEach(entry => {if(entry.stats.PtsPerGame['#text'] > 0) return Stats.create({player:formatMSF(entry)})}))
+  .then(res.status(201).json('teams populated successfully').send())
+  .catch(err => console.error(err));
+});
 
 app.get('/api/players', (req, res) => {
   Stats.find().then(data => res.json(data));

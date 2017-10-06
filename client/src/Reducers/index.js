@@ -27,7 +27,7 @@ const initialState = {
     case 'SET_GRAPHING_PLAYER':
       return {
         ...state,
-        graphPlayers: [...state.graphPlayers, action.data]
+        graphPlayers: [ action.data]
       }
       default : 
         return state;

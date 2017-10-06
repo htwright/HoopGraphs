@@ -22,7 +22,7 @@ class Graph extends Component {
   render(){
     const barData = this.props.graphPlayers.length ? this.props.graphPlayers.map((player, i) => ({
       name: `Player ${i+1}`,
-      values:  [ { x: 0, y: 30}, { x: 10, y: player.player.ppg } ]
+      values:  [ { x: 0, y: 30}, { x: i+1, y: player.player.ppg } ]
     })
   ) : null;
     // const chartSeries = [{field: 'ppg', name:'points per game'}];
@@ -41,7 +41,7 @@ class Graph extends Component {
       xLabel = 'Letter',
       yLabel = 'Frequency',
       yTicks = [0.5, 'ppg'];
-    let counter;
+    let counter = 0;
     this.props.playerData.forEach(item => {
       counter += item.player.ppg;
     });
