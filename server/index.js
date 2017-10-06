@@ -37,10 +37,14 @@ function formatMSF(entry) {
     MSFID: entry.player.ID,
     name: `${entry.player.FirstName} ${entry.player.LastName}`,
     position: entry.player.Position,
-    ppg: entry.stats.PtsPerGame['#text']
+    ppg: entry.stats.PtsPerGame['#text'],
+    apg: entry.stats.AstPerGame['#text'],
+    spg: entry.stats.StlPerGame['#text'],
+    rpg: entry.stats.RebPerGame['#text'],
+    tpg: entry.stats.TovPerGame['#text']
   })
 }
-app.get('/api/populateteams', (req, res) => {
+app.get('/api/populate', (req, res) => {
   fetch(`https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json?playerstats=PTS/G,AST/G,STL/G,REB/G,TOV/G`, {headers: {Authorization: `Basic ${apiAuth}`}})
   .then(data => data.json())
   .then(data => data.cumulativeplayerstats.playerstatsentry.forEach(entry => {if(entry.stats.PtsPerGame['#text'] > 0) return Stats.create({player:formatMSF(entry)})}))
